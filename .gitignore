@@ -1,0 +1,15 @@
+# Create .gitignore file
+echo "# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Temp files
+*.tmp
+*.log
+
+# Node modules (if any)
+node_modules/" > .gitignore

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Akrem Mejbri | CyberSecurity Matrix Portfolio</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Space Grotesk + Fira Code -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .matrix-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.35;
+            display: block;
+        }
+
+        .cyber-root {
+            position: relative;
+            z-index: 1;
+            background-color: transparent;
+        }
+
+        body {
+            background-color: #0a0c10;
+            color: #cfd8e6;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #11161f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00e6c3;
+            border-radius: 10px;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 6px #00ffe1, 0 0 1px #0ff;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 5%;
+            background: rgba(8, 12, 18, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 255, 225, 0.35);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: 0.2s;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon {
+            font-size: 28px;
+            color: #00ffdd;
+            filter: drop-shadow(0 0 4px #0ff);
+        }
+        .logo h1 {
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #e0f2fe, #0ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #bbd1e5;
+            font-weight: 500;
+            transition: 0.3s;
+            font-size: 1rem;
+            position: relative;
+        }
+        .nav-links a:hover {
+            color: #00ffdd;
+            text-shadow: 0 0 5px #0ff;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+        }
+        .hamburger span {
+            width: 28px;
+            height: 2px;
+            background: #0ff;
+            transition: 0.3s;
+        }
+
+        section {
+            padding: 100px 5% 80px;
+            position: relative;
+            z-index: 2;
+        }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            background: radial-gradient(circle at 20% 30%, rgba(14,20,32,0.65), rgba(5,8,12,0.8));
+            backdrop-filter: blur(2px);
+        }
+                    @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(0,255,225,0.5);
+                border-color: #0ff;
+            }
+            to {
+                box-shadow: 0 0 30px rgba(0,255,225,1);
+                border-color: #0ff;
+            }
+            }
+
+        .profile-pic {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        background: linear-gradient(145deg, #0f212e, #010101);
+        background-image: url('Photos/akrem.png');
+        background-size: cover;
+        border: 2px solid #0ff;
+        box-shadow: 0 0 30px rgba(0,255,225,0.3);
+        animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            margin: 20px 0 15px;
+        }
+        .hero .highlight {
+            color: #0ff;
+            text-shadow: 0 0 10px #0ff;
+        }
+        .hero #dynamic-role {
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: #95f0e6;
+            font-family: 'Fira Code', monospace;
+        }
+        .hero p {
+            max-width: 650px;
+            margin: 20px auto;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #b3c7e3;
+        }
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .btn {
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            font-family: 'Space Grotesk', monospace;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            background: transparent;
+        }
+        .btn-primary {
+            border: 1.5px solid #0ff;
+            color: #0ff;
+            box-shadow: 0 0 6px rgba(0,255,225,0.3);
+        }
+        .btn-primary:hover {
+            background: #0ff;
+            color: #0a0c10;
+            box-shadow: 0 0 18px #0ff;
+        }
+        .btn-secondary {
+            background: #1e2a36;
+            border: 1px solid #3f6b7c;
+            color: #d1e5f5;
+        }
+        .btn-secondary:hover {
+            background: #2c4858;
+            border-color: #0ff;
+        }
+        .btn-download {
+            border: 1.5px solid #0ff;
+            color: #0ff;
+            box-shadow: 0 0 8px rgba(0,255,225,0.4);
+        }
+        .btn-download:hover {
+            background: #0ff;
+            color: #000;
+            transform: scale(1.02);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.4rem;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        .section-title span {
+            background: linear-gradient(135deg, #aaf0ff, #0ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            border-bottom: 3px solid #0ff;
+            padding-bottom: 8px;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .skill-card {
+            background: rgba(18, 25, 35, 0.7);
+            backdrop-filter: blur(4px);
+            border: 1px solid #1e4957;
+            border-radius: 20px;
+            padding: 18px 22px;
+            width: 180px;
+            text-align: center;
+            transition: 0.2s;
+            cursor: default;
+        }
+        .skill-card i {
+            font-size: 2.2rem;
+            color: #0ff;
+            margin-bottom: 12px;
+        }
+        .skill-card h4 {
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+        .skill-card:hover {
+            border-color: #0ff;
+            transform: translateY(-6px);
+            background: #0a141f;
+            box-shadow: 0 0 15px rgba(0,255,225,0.2);
+        }
+
+        .projects-grid, .competitions-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .project-card {
+            background: #0f1722cc;
+            backdrop-filter: blur(6px);
+            border-radius: 24px;
+            padding: 1.8rem;
+            width: 340px;
+            border-left: 4px solid #0ff;
+            transition: all 0.25s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #c6f0ff;
+        }
+        .project-card p {
+            font-size: 0.9rem;
+            margin: 12px 0;
+            line-height: 1.4;
+            color: #b9cef0;
+        }
+        .tech-stack {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            background: #05161f;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 30px;
+            margin-top: 12px;
+            color: #0ff;
+        }
+        .project-card:hover {
+            transform: scale(1.02);
+            border-left-width: 6px;
+            background: #111c2a;
+            box-shadow: 0 10px 25px rgba(0,255,200,0.1);
+        }
+
+        .comp-card {
+            background: #101a24cc;
+            backdrop-filter: blur(5px);
+            border-radius: 24px;
+            padding: 1.5rem;
+            width: 320px;
+            border-top: 2px solid #00e0c0;
+        }
+        .comp-card i {
+            font-size: 2rem;
+            color: #0ff;
+            margin-bottom: 10px;
+        }
+
+        .about-text {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+            background: rgba(0,20,30,0.5);
+            backdrop-filter: blur(4px);
+            padding: 2rem;
+            border-radius: 40px;
+            border: 1px solid #245b6b;
+        }
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        .contact-item {
+            background: #0f1922cc;
+            padding: 12px 28px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #c0e0ff;
+            font-weight: 500;
+            transition: 0.2s;
+            border: 1px solid #2d5f6e;
+            backdrop-filter: blur(2px);
+        }
+        .contact-item i {
+            font-size: 1.5rem;
+            color: #0ff;
+        }
+        .contact-item:hover {
+            background: #0ff22a1f;
+            border-color: #0ff;
+            color: white;
+        }
+
+        footer {
+            background: #03070ecc;
+            backdrop-filter: blur(8px);
+            text-align: center;
+            padding: 35px;
+            border-top: 1px solid #0ff33a;
+            font-size: 0.85rem;
+            position: relative;
+            z-index: 2;
+        }
+        .social-icons a {
+            color: #9cc;
+            font-size: 1.6rem;
+            margin: 0 12px;
+            transition: 0.2s;
+            display: inline-block;
+        }
+        .social-icons a:hover {
+            color: #0ff;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 850px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                flex-direction: column;
+                background: #0a101ccc;
+                backdrop-filter: blur(16px);
+                width: 220px;
+                padding: 30px;
+                border-radius: 20px;
+                gap: 25px;
+                transition: 0.3s;
+                border-left: 2px solid #0ff;
+            }
+            .nav-links.active {
+                right: 20px;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .hero h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .popup-card {
+            background: #0d1620;
+            padding: 2rem;
+            border-radius: 32px;
+            text-align: center;
+            width: 320px;
+            border: 1px solid #0ff;
+            box-shadow: 0 0 30px rgba(0,255,225,0.2);
+        }
+        .popup-card h3 {
+            color: #0ff;
+            margin-bottom: 1rem;
+        }
+        .close-pop {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        .qr-placeholder {
+            margin: 15px auto;
+            width: 140px;
+            height: 140px;
+            background: #03151f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            border: 1px dashed #0ff;
+        }
+        .qr-placeholder i {
+            font-size: 70px;
+            color: #0ff;
+        }
+        .copy-btn {
+            background: #0ff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 15px;
+            cursor: pointer;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-bg" class="matrix-canvas"></canvas>
+    
+    <div class="cyber-root">
+        <header>
+            <div class="logo">
+                <i class="fas fa-shield-halos logo-icon"></i>
+                <h1>Akrem<span style="color:#0ff;">_Mejbri</span></h1>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home">// home</a></li>
+                    <li><a href="#skills">// skills</a></li>
+                    <li><a href="#projects">// projects</a></li>
+                    <li><a href="#hackathons">// ctf & comp</a></li>
+                    <li><a href="#contact">// contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span><span></span><span></span>
+                </div>
+            </nav>
+        </header>
+
+        <section id="home" class="hero">
+            <div class="profile-pic">
+            </div>
+            <h2>Akrem Mejbri · <span class="highlight">Cybersecurity Engineer</span></h2>
+            <div id="dynamic-role">>_ pentester · cloud security · devsecops</div>
+            <p>🔐 CTF player | CCNA & CyberOps certified | Hands-on in penetration testing, network segmentation, and secure cloud infrastructures. I transform threats into hardened systems.</p>
+            <div class="btn-group">
+                <a href="#contact" class="btn btn-primary"><i class="fas fa-envelope"></i> Contact Me</a>
+                <!-- DOWNLOAD CV BUTTON - downloads AkremCV.pdf from project folder -->
+                <a href="AkremCV.pdf" class="btn btn-download" id="downloadCVBtn" download="Akrem_Mejbri_CV.pdf"><i class="fas fa-file-pdf"></i> Download CV</a>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2 class="section-title"><span>// technical arsenal</span></h2>
+            <div class="skills-grid">
+                <div class="skill-card"><i class="fas fa-shield-virus"></i><h4>Penetration Testing</h4></div>
+                <div class="skill-card"><i class="fas fa-search"></i><h4>Vulnerability Assessment</h4></div>
+                <div class="skill-card"><i class="fas fa-laptop-code"></i><h4>Reverse Engineering</h4></div>
+                <div class="skill-card"><i class="fas fa-dharmachakra"></i><h4>Cryptography Basics</h4></div>
+                <div class="skill-card"><i class="fab fa-docker"></i><h4>Docker & K8s</h4></div>
+                <div class="skill-card"><i class="fas fa-cloud-upload-alt"></i><h4>OpenStack / GNS3</h4></div>
+                <div class="skill-card"><i class="fas fa-code-branch"></i><h4>CI/CD Pipeline</h4></div>
+                <div class="skill-card"><i class="fas fa-network-wired"></i><h4>Network Security</h4></div>
+            </div>
+            <h2 class="section-title" style="margin-top: 55px;"><span>// soft & mindset</span></h2>
+            <div class="skills-grid">
+                <div class="skill-card"><i class="fas fa-comments"></i><h4>Communication</h4></div>
+                <div class="skill-card"><i class="fas fa-users"></i><h4>Teamwork / Red-Blue</h4></div>
+                <div class="skill-card"><i class="fas fa-chart-line"></i><h4>Critical Thinking</h4></div>
+                <div class="skill-card"><i class="fas fa-clock"></i><h4>Time Management</h4></div>
+                <div class="skill-card"><i class="fas fa-tasks"></i><h4>Project Management</h4></div>
+                <div class="skill-card"><i class="fas fa-brain"></i><h4>Adaptability</h4></div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2 class="section-title"><span>// security & dev projects</span></h2>
+            <div class="projects-grid">
+                <div class="project-card"><h3>🔒 Secure Private Cloud</h3><p>HQ_Audit microservices deployment with network segmentation & Kubernetes. Harden cloud using OpenStack + GNS3 simulation.</p><span class="tech-stack">OpenStack · K8s · Docker · GNS3</span></div>
+                <div class="project-card"><h3>🖐️ Gestecom Recognition</h3><p>Gesture-based sign language detection using MediaPipe, OpenCV, integrated with chatbot & cross-platform apps.</p><span class="tech-stack">Python · MediaPipe · Symfony · Gemini API</span></div>
+                <div class="project-card"><h3>📡 Connection Interruption Detection</h3><p>Fiber optic outage detection platform with real-time alerts for technicians. Web + mobile reporting.</p><span class="tech-stack">Symfony · Firebase · Leaflet.js</span></div>
+                <div class="project-card"><h3>👕 E‑commerce fullstack</h3><p>Clothing store with cart, Stripe payments, React.js + React Native + Node.js.</p><span class="tech-stack">React · Node · Firebase · Stripe</span></div>
+                <div class="project-card"><h3>🚗 Virtual Driving Simulator</h3><p>VR-based driving training with Unreal Engine, Meta Quest integration, traffic scenarios.</p><span class="tech-stack">Unreal · Blender · Node.js</span></div>
+            </div>
+        </section>
+
+        <section id="hackathons">
+            <h2 class="section-title"><span>// ctf & competitions</span></h2>
+            <div class="competitions-grid">
+                <div class="comp-card"><i class="fas fa-trophy"></i><h3>INSIGHT Hackathon · IEEE ESPRIT</h3><p>Real-world cybersecurity challenges, designed secure solutions under time pressure. 🧩</p></div>
+                <div class="comp-card"><i class="fas fa-shield-alt"></i><h3>CyberCamp 6.0 · INSAT</h3><p>Red/Blue team simulations, network hardening, attack/defense drills.</p></div>
+                <div class="comp-card"><i class="fas fa-flag-checkered"></i><h3>Mini CTF · Polytechnique Sousse</h3><p><strong>4th place</strong> — crypto, web security, reverse engineering challenges. Top-tier teamwork.</p></div>
+            </div>
+            <div style="text-align:center; margin-top: 30px;">
+                <span class="tech-stack" style="background:#0f212e;"><i class="fas fa-certificate"></i> CCNA · CyberOps · DevSecOps mindset</span>
+            </div>
+        </section>
+
+        <section id="education-know" style="background: rgba(7,12,18,0.6);">
+            <h2 class="section-title"><span>// academic & profile</span></h2>
+            <div class="skills-grid" style="gap: 20px; max-width: 1000px; margin: auto;">
+                <div class="skill-card" style="width: 230px;"><i class="fas fa-graduation-cap"></i><h4>Engineer's degree</h4><p>ESPRIM · 2024 (Cybersecurity)</p></div>
+                <div class="skill-card" style="width: 230px;"><i class="fas fa-university"></i><h4>Licence degree</h4><p>Isitcom hamem sousse · 2021</p></div>
+                <div class="skill-card" style="width: 230px;"><i class="fas fa-school"></i><h4>Baccalaureate</h4><p>Lycee garcon sousse · 2020</p></div>
+            </div>
+            <div class="about-text" style="margin-top: 40px;">
+                <i class="fas fa-user-astronaut" style="font-size: 30px; color: #0ff;"></i>
+                <p style="margin-top: 15px;">Cybersecurity engineering student passionate about building resilient networks, automating defenses, and competing in CTFs. I merge DevSecOps with offensive security to design next‑gen secure systems.</p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2 class="section-title"><span>// reach out</span></h2>
+            <div class="contact-links">
+                <a href="mailto:akrem.mejbri@esprim.tn" class="contact-item"><i class="fas fa-envelope"></i> akrem.mejbri@esprim.tn</a>
+                <a href="#" class="contact-item" id="phoneTrigger"><i class="fas fa-phone-alt"></i> +216 54 262 750</a>
+                <a href="#" class="contact-item" id="locationTrigger"><i class="fas fa-map-marker-alt"></i> Sousse, Sahloul</a>
+            </div>
+            <div class="social-icons" style="text-align: center; margin-top: 20px;">
+                <a href="https://github.com/akremmejbri"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/akrem-mejbri-ab9b33209/"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.facebook.com/share/1NXMcdaaG3/"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.facebook.com/share/1NXMcdaaG3/"><i class="fab fa-facebook"></i></a>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 Akrem Mejbri — <span style="color:#0ff;">#CyberResilience</span> · Securing the digital frontier</p>
+            <div style="margin-top: 10px; font-size: 0.75rem;">Penetration Testing | Cloud Security | DevSecOps</div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Matrix Background Effect
+        (function initMatrixEffect() {
+            const canvas = document.getElementById("matrix-bg");
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+            if (!ctx) return;
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+            const fontSize = 14;
+            let columns = Math.floor(width / fontSize);
+            let drops = Array(columns).fill(1);
+            const chars = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプ0123456789ABCDEF<>/\\|*+-#$@!".split("");
+            
+            const onResize = () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+                columns = Math.floor(width / fontSize);
+                drops = Array(columns).fill(1);
+            };
+            window.addEventListener("resize", onResize);
+            
+            let raf = 0;
+            let last = 0;
+            const draw = (ts) => {
+                if (ts - last > 50) {
+                    last = ts;
+                    ctx.fillStyle = "rgba(10, 12, 16, 0.08)";
+                    ctx.fillRect(0, 0, width, height);
+                    ctx.fillStyle = "#00ffdd";
+                    ctx.font = `${fontSize}px 'Fira Code', monospace`;
+                    for (let i = 0; i < drops.length; i++) {
+                        const text = chars[Math.floor(Math.random() * chars.length)];
+                        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                        if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+                        drops[i]++;
+                    }
+                }
+                raf = requestAnimationFrame(draw);
+            };
+            raf = requestAnimationFrame(draw);
+        })();
+
+        // Typed effect for roles
+        const roles = [
+            ">_ Penetration Tester",
+            ">_ Cloud Security Architect",
+            ">_ DevSecOps Engineer",
+            ">_ CTF Player (Red Team)",
+            ">_ Reverse Engineer"
+        ];
+        let idx = 0;
+        const dynamicSpan = document.getElementById("dynamic-role");
+        function typeRole() {
+            let full = roles[idx];
+            let i = 0;
+            dynamicSpan.innerHTML = "";
+            function addChar() {
+                if (i < full.length) {
+                    dynamicSpan.innerHTML += full.charAt(i);
+                    i++;
+                    setTimeout(addChar, 80);
+                } else {
+                    setTimeout(() => {
+                        idx = (idx + 1) % roles.length;
+                        typeRole();
+                    }, 2500);
+                }
+            }
+            addChar();
+        }
+        typeRole();
+
+        // Hamburger menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+        }
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                if (hamburger) hamburger.classList.remove('active');
+            });
+        });
+
+        // Phone and location alerts
+        const phoneTrigger = document.getElementById('phoneTrigger');
+        const locationTrigger = document.getElementById('locationTrigger');
+        if (phoneTrigger) {
+            phoneTrigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert("📞 +216 54 262 750 (Feel free to connect for cybersecurity collaborations)");
+            });
+        }
+        if (locationTrigger) {
+            locationTrigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert("📍 Sousse, Sahloul — Tunisia. Open for remote security engagements.");
+            });
+        }
+
+        // Smooth anchor behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const hash = this.getAttribute('href');
+                if (hash === "#" || hash === "") return;
+                const target = document.querySelector(hash);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
